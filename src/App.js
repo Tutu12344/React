@@ -1,6 +1,7 @@
 // import React, { Component } from "react";
 // import { ImagePropTypes } from "react-native";
 import React from "react";
+import PropTypes from "prop-types";
 // class App extends Component {
 //   render() {
 //     return(
@@ -19,6 +20,9 @@ const App = () => {
     {
       name: "t",
       age: 0,
+    },
+    {
+      name: 1,
     },
   ];
   return (
@@ -42,8 +46,8 @@ const Cat = (props) => {
     </div>
   );
 };
-//defaultのあたい
-Cat.defaultProps = {
-  age: 1,
+Cat.propTypes = {
+  name: PropTypes.string,
+  age: PropTypes.number.isRequired,
 };
 export default App;
