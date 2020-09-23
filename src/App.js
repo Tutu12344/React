@@ -1,7 +1,6 @@
-// import React, { Component } from "react";
+import React, { Component } from "react";
 // import { ImagePropTypes } from "react-native";
-import React from "react";
-import PropTypes from "prop-types";
+// import React from "react";
 // class App extends Component {
 //   render() {
 //     return(
@@ -12,42 +11,38 @@ import PropTypes from "prop-types";
 // }
 
 const App = () => {
-  const profiles = [
-    {
-      name: "taro",
-      age: 10,
-    },
-    {
-      name: "t",
-      age: 0,
-    },
-    {
-      name: 1,
-    },
-  ];
   return (
     <div>
-      {profiles.map((profile, index) => {
-        return <Cat name={profile.name} age={profile.age} key={index} />;
-      })}
-      {/* <Cat name={"tTaro"} age={10} /> */}
+      <Counter></Counter>
     </div>
   );
 };
-// function App() {
-//   return <div>helloWorld</div>;
-// }
 
-const Cat = (props) => {
-  return (
-    <div>
-      This {props.name}
-      {props.age}{" "}
-    </div>
-  );
-};
-Cat.propTypes = {
-  name: PropTypes.string,
-  age: PropTypes.number.isRequired,
-};
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    console.log(this.state);
+    this.state = { count: 0 };
+  }
+
+  plusButton = () => {
+    const currentCount = this.state.count;
+    this.setState({ count: currentCount + 1 });
+  };
+  mainasButton = () => {
+    const currentCount = this.state.count;
+    //setStateが呼ばれるとrenderが呼ばれるため直接買えてはいけない
+    this.setState({ count: currentCount - 1 });
+  };
+  render() {
+    return (
+      <React.Fragment>
+        <div>count:{this.state.count}</div>
+        <button onClick={this.plusButton}>+1</button>
+        <button onClick={this.mainasButton}>-1</button>
+      </React.Fragment>
+    );
+  }
+}
+
 export default App;
