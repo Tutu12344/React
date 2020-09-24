@@ -1,48 +1,29 @@
 import React, { Component } from "react";
-// import { ImagePropTypes } from "react-native";
-// import React from "react";
-// class App extends Component {
-//   render() {
-//     return(
-//     <div>
-//       <Cat name={"tTaro"}/>
-//     </div>)
-//   }
-// }
+import { connect } from "react-redux";
 
-const App = () => {
-  return (
-    <div>
-      <Counter></Counter>
-    </div>
-  );
-};
+import { increment, decrement } from "../actions";
 
-class Counter extends Component {
-  constructor(props) {
-    super(props);
-    console.log(this.state);
-    this.state = { count: 0 };
-  }
-
-  plusButton = () => {
-    const currentCount = this.state.count;
-    this.setState({ count: currentCount + 1 });
-  };
-  mainasButton = () => {
-    const currentCount = this.state.count;
-    //setStateが呼ばれるとrenderが呼ばれるため直接買えてはいけない
-    this.setState({ count: currentCount - 1 });
-  };
+class App extends Component {
   render() {
+    const props = this.props;
     return (
       <React.Fragment>
-        <div>count:{this.state.count}</div>
-        <button onClick={this.plusButton}>+1</button>
-        <button onClick={this.mainasButton}>-1</button>
+        <div>
+          value:{props.value}
+          {console.log(props.value)}
+        </div>
+        <button onClick={props.increment}>+1</button>
+        <button onClick={props.decrement}>-1</button>
       </React.Fragment>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({ value: state.count.value });
+const mapDispatchToProps = (dispatch) => ({
+  increment: () => dispatch(increment()),
+  decrement: () => dispatch(decrement()),
+});
+
+// const mapDispatchToProps = ({ increment, decrement });
+export default connect(mapStateToProps, mapDispatchToProps)(App);
