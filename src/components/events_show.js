@@ -10,6 +10,10 @@ class EventsShow extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onDeleteClick = this.onDeleteClick.bind(this);
   }
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    if (id) this.props.get_events(id);
+  }
   renderField(field) {
     const {
       input,
@@ -19,7 +23,6 @@ class EventsShow extends Component {
     } = field;
     return (
       <div>
-        {console.log(input)}
         {/* ...可変長配列の展開 */}
         <input {...input} placeholder={label} type={type} />
         {touched && error && <span>{error}</span>}
@@ -27,7 +30,7 @@ class EventsShow extends Component {
     );
   }
   async onSubmit(values) {
-    // await this.props.post_events(values);
+    await this.props.put_events(values);
     this.props.history.push("/");
   }
   async onDeleteClick() {
@@ -38,7 +41,7 @@ class EventsShow extends Component {
     this.props.history.push("/");
   }
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
@@ -59,7 +62,7 @@ class EventsShow extends Component {
           <input
             type="submit"
             value="Submit"
-            disabled={pristine || submitting}
+            disabled={pristine || submitting || invalid}
           />
           <Link to="/">Cancel</Link>
           <Link to="/" onClick={this.onDeleteClick}>
@@ -76,8 +79,17 @@ const validate = (values) => {
   if (!values.body) errors.body = "Enter a body,please";
   return errors;
 };
-const mapDispatchToProps = { delete_events };
+
+const mapStateToProps = (state, ownProps) => {
+  const event = state.events[ownProps.match.params.id];
+  return { initialValues: event, event };
+};
+const mapDispatchToProps = { delete_events, get_events, put_events };
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ validate, form: "eventShowForm" })(EventsShow));
+)(
+  reduxForm({ validate, form: "eventShowForm", enableReinitialize: true })(
+    EventsShow
+  )
+);

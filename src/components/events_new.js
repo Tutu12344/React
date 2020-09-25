@@ -18,7 +18,6 @@ class EventsNew extends Component {
     } = field;
     return (
       <div>
-        {console.log(input)}
         {/* ...可変長配列の展開 */}
         <input {...input} placeholder={label} type={type} />
         {touched && error && <span>{error}</span>}
@@ -30,7 +29,7 @@ class EventsNew extends Component {
     this.props.history.push("/");
   }
   render() {
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, invalid } = this.props;
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
@@ -51,7 +50,7 @@ class EventsNew extends Component {
           <input
             type="submit"
             value="Submit"
-            disabled={pristine || submitting}
+            disabled={pristine || submitting || invalid}
           />
           <Link to="/">Cancel</Link>
         </div>

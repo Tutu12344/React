@@ -9,6 +9,7 @@ class EventsIndex extends Component {
   }
 
   renderEvents() {
+    console.log(this.props.events);
     return _.map(this.props.events, (event) => (
       <tr key={event.id}>
         <td>{event.id}</td>
